@@ -36,23 +36,57 @@ void displayAll(){
     }
 }
 
+void findTopper(){
+    if(students.empty()){
+        cout << "No students yet!" << endl;
+        return;
+    }
+    Student topper = students[0];
+    for(auto s : students){
+        if(s.marks > topper.marks) topper = s;
+    }
+    cout << "\n🏆 Topper: " << topper.name
+         << " | Marks: " << topper.marks << endl;
+}
+
+void searchStudent(){
+    string name;
+    cout << "Enter name to search: ";
+    cin >> name;
+
+    bool found = false;
+    for(auto s : students){
+        if(s.name == name){
+            cout << "Found! Roll: " << s.rollNo
+                 << " | Marks: " << s.marks << endl;
+            found = true;
+            break;
+        }
+    }
+    if(!found) cout << "Student not found!" << endl;
+}
+
 int main(){
     int choice;
     do {
         cout << "\n=== Student Record System ===" << endl;
         cout << "1. Add Student" << endl;
         cout << "2. Display All" << endl;
-        cout << "3. Exit" << endl;
+        cout << "3. Find Topper" << endl;
+        cout << "4. Search Student" << endl;
+        cout << "5. Exit" << endl;
         cout << "Enter choice: ";
         cin >> choice;
 
         switch(choice){
             case 1: addStudent(); break;
             case 2: displayAll(); break;
-            case 3: cout << "Goodbye!" << endl; break;
+            case 3: findTopper(); break;
+            case 4: searchStudent(); break;
+            case 5: cout << "Goodbye!" << endl; break;
             default: cout << "Invalid choice!" << endl;
         }
-    } while(choice != 3);
+    } while(choice != 5);
 
     return 0;
 }
