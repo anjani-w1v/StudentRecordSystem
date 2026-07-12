@@ -66,6 +66,50 @@ void searchStudent(){
     if(!found) cout << "Student not found!" << endl;
 }
 
+void sortByMarks(){
+    if(students.empty()){
+        cout << "No students yet!" << endl;
+        return;
+    }
+    // Bubble sort on vector
+    int n = students.size();
+    for(int i = 0; i < n-1; i++){
+        for(int j = 0; j < n-i-1; j++){
+            if(students[j].marks > students[j+1].marks){
+                swap(students[j], students[j+1]);
+            }
+        }
+    }
+    cout << "Sorted by marks!" << endl;
+    displayAll();
+}
+
+void calculateAverage(){
+    if(students.empty()){
+        cout << "No students yet!" << endl;
+        return;
+    }
+    float sum = 0;
+    for(auto s : students){
+        sum += s.marks;
+    }
+    float avg = sum / students.size();
+    cout << "Class Average: " << avg << endl;
+
+    // Also show grade distribution
+    int aCount=0, bCount=0, cCount=0, dCount=0;
+    for(auto s : students){
+        if(s.marks >= 90) aCount++;
+        else if(s.marks >= 75) bCount++;
+        else if(s.marks >= 60) cCount++;
+        else dCount++;
+    }
+    cout << "Grade A: " << aCount << " students" << endl;
+    cout << "Grade B: " << bCount << " students" << endl;
+    cout << "Grade C: " << cCount << " students" << endl;
+    cout << "Grade D: " << dCount << " students" << endl;
+}
+
 int main(){
     int choice;
     do {
@@ -74,7 +118,9 @@ int main(){
         cout << "2. Display All" << endl;
         cout << "3. Find Topper" << endl;
         cout << "4. Search Student" << endl;
-        cout << "5. Exit" << endl;
+        cout << "5. sortByMarks" << endl;
+        cout << "6. calculateAverage" << endl;
+        cout << "7. Exit" << endl;
         cout << "Enter choice: ";
         cin >> choice;
 
@@ -83,10 +129,12 @@ int main(){
             case 2: displayAll(); break;
             case 3: findTopper(); break;
             case 4: searchStudent(); break;
-            case 5: cout << "Goodbye!" << endl; break;
+            case 5: sortByMarks(); break;
+            case 6: calculateAverage(); break;
+            case 7: cout << "Goodbye!" << endl; break;
             default: cout << "Invalid choice!" << endl;
         }
-    } while(choice != 5);
+    } while(choice != 7);
 
     return 0;
 }
