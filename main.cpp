@@ -1,3 +1,4 @@
+#include<fstream> 
 #include<iostream>
 #include<vector>
 #include<string>
@@ -110,8 +111,37 @@ void calculateAverage(){
     cout << "Grade D: " << dCount << " students" << endl;
 }
 
+void saveToFile(){
+    ofstream file("students.txt");
+    if(!file){
+        cout << "Error opening file!" << endl;
+        return;
+    }
+    for(auto s : students){
+        file << s.name << " "
+             << s.rollNo << " "
+             << s.marks << "\n";
+    }
+    file.close();
+    cout << "Data saved to students.txt!" << endl;
+}
+
+void loadFromFile(){
+    ifstream file("students.txt");
+    if(!file) return;  // no file yet, skip silently
+
+    students.clear();
+    Student s;
+    while(file >> s.name >> s.rollNo >> s.marks){
+        students.push_back(s);
+    }
+    file.close();
+    cout << "Data loaded!" << endl;
+}
+
 int main(){
     int choice;
+    loadFromFile();
     do {
         cout << "\n=== Student Record System ===" << endl;
         cout << "1. Add Student" << endl;
@@ -120,7 +150,8 @@ int main(){
         cout << "4. Search Student" << endl;
         cout << "5. sortByMarks" << endl;
         cout << "6. calculateAverage" << endl;
-        cout << "7. Exit" << endl;
+        cout << "7. saveToFile()" << endl;
+        cout << "8. Exit" << endl;
         cout << "Enter choice: ";
         cin >> choice;
 
@@ -131,10 +162,11 @@ int main(){
             case 4: searchStudent(); break;
             case 5: sortByMarks(); break;
             case 6: calculateAverage(); break;
-            case 7: cout << "Goodbye!" << endl; break;
+            case 7: saveToFile(); break;
+            case 8: cout << "Goodbye!" << endl; break;
             default: cout << "Invalid choice!" << endl;
         }
-    } while(choice != 7);
+    } while(choice != 8);
 
     return 0;
 }
